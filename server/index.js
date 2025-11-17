@@ -11,7 +11,7 @@ dotenv.config();
 
 dbConnection();
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 const app = express();
 
@@ -34,7 +34,12 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 app.use("/api", routes);
 
+// Root route for health check
+app.get("/", (req, res) => {
+  res.json({ status: "ok", message: "API is running", time: new Date().toISOString() });
+});
+
 app.use(routeNotFound);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`Server listening on ${port}`));
+app.listen(port, () => console.log(`SERVER RUNNING on PORT=${port}`));
