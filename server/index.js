@@ -11,7 +11,7 @@ dotenv.config();
 
 dbConnection();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(
     origin: [
   "http://localhost:3000",
   "http://localhost:3001",
-  "https://teamtaskify.netlify.app",
+  "https://distributed-job-queue-frontend.onrender.com",
   process.env.FRONTEND_URL
 ],
   })
