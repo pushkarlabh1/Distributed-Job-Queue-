@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import createJWT from "../utils/index.js";
+import { generateToken } from "../utils/index.js";
 import Notice from "../models/notis.js";
 
 // POST request - login user
@@ -25,11 +26,18 @@ const loginUser = asyncHandler(async (req, res) => {
   const isMatch = await user.matchPassword(password);
 
   if (user && isMatch) {
-    createJWT(res, user._id);
+    // Set cookie with proper CORS settings
+    res.cookie('authToken', generateToken(user._id), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: '/'
+    });
 
     user.password = undefined;
 
-    res.status(200).json(user);
+    res.status(200).json({ success: true, user });
   } else {
     return res
       .status(401)

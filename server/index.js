@@ -1,11 +1,12 @@
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 import { errorHandler, routeNotFound } from "./middleware/errorMiddleware.js";
 import routes from "./routes/index.js";
 import dbConnection from "./utils/connectDB.js";
+import cors from 'cors';
+import corsConfig from './cors-config.js';
 
 dotenv.config();
 
@@ -15,17 +16,8 @@ const port = process.env.PORT || 5000;
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "https://job-queue-frontend.vercel.app/",
-  process.env.FRONTEND_URL
-],
-  })
-);
-
+app.use(cors(corsConfig.corsOptions));
+app.options('*', cors(corsConfig.corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
