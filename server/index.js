@@ -20,7 +20,7 @@ app.use(
     origin: [
   "http://localhost:3000",
   "http://localhost:3001",
-  "https://distributed-job-queue-frontend.onrender.com",
+  "https://job-queue-frontend.vercel.app/",
   process.env.FRONTEND_URL
 ],
   })
