@@ -6,6 +6,7 @@ import ConfirmatioDialog, { UserAction } from "./ConfirmationDialog";
 import Loading from "./Loading";
 import ModalWrapper from "./ModalWrapper";
 import Navbar from "./Navbar";
+import JobQueueXNavBar from "./JobQueueXNavBar";
 import SelectList from "./SelectList";
 import Sidebar from "./Sidebar";
 import Table from "./Table";
@@ -24,6 +25,7 @@ export {
   Loading,
   ModalWrapper,
   Navbar,
+  JobQueueXNavBar,
   SelectList,
   Sidebar,
   Table,

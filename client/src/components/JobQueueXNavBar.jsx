@@ -5,7 +5,7 @@ const JobQueueXNavBar = () => {
   return (
     <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center">
       <div className="text-2xl font-bold text-[#0B1226]">
-        <Link to="/">JobQueueX</Link>
+        <Link to="/" className="hover:text-[#2F6CFF] transition-colors">JobQueueX</Link>
       </div>
       <div className="hidden md:flex items-center space-x-8">
         <Link to="/" className="text-[#0B1226] font-medium hover:text-[#2F6CFF]">Home</Link>
