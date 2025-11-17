@@ -39,6 +39,11 @@ app.get("/", (req, res) => {
   res.json({ status: "ok", message: "API is running", time: new Date().toISOString() });
 });
 
+app.get("/health", (req, res) => {
+  res.send("OK");
+});
+
+
 app.use(routeNotFound);
 app.use(errorHandler);
 
