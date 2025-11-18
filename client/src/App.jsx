@@ -94,14 +94,10 @@ const App = () => {
         <Routes>
           {/* Public routes - accessible to all users */}
           <Route path="/" element={
-            !user ? (
-              <>
-                <JobQueueXNavBar />
-                <JobQueueXHome />
-              </>
-            ) : (
-              <Navigate to="/dashboard" />
-            )
+            <>
+              <JobQueueXNavBar />
+              <JobQueueXHome />
+            </>
           } />
           <Route path="/signin" element={
             <Navigate to="/log-in" />
@@ -116,37 +112,22 @@ const App = () => {
             <Navigate to="/log-in" />
           } />
           <Route path="/features" element={
-            !user ? (
-              <>
-                <JobQueueXNavBar />
-                <JobQueueXHome />
-              </>
-            ) : (
-              <Navigate to="/dashboard" />
-            )
+            <>
+              <JobQueueXNavBar />
+              <JobQueueXHome />
+            </>
           } />
           <Route path="/jdashboard" element={
-            !user ? (
-              <>
-                <JobQueueXNavBar />
-                <JobQueueXHome />
-              </>
-            ) : (
-              <Navigate to="/dashboard" />
-            )
+            <Navigate to="/dashboard" />
           } />
           <Route path="/docs" element={
-            !user ? (
-              <>
-                <JobQueueXNavBar />
-                <JobQueueXHome />
-              </>
-            ) : (
-              <Navigate to="/dashboard" />
-            )
+            <>
+              <JobQueueXNavBar />
+              <JobQueueXHome />
+            </>
           } />
           <Route path="/log-in" element={
-            !user ? <Login /> : <Navigate to="/dashboard" />
+            <Login />
           } />
 
           {/* Authenticated routes - only accessible when logged in */}
