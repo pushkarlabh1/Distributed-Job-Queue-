@@ -25,15 +25,11 @@ const Login = () => {
       const res = await login(data).unwrap();
 
       dispatch(setCredentials(res));
-      navigate("/");
+      navigate("/dashboard");
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
   };
-
-  useEffect(() => {
-    user && navigate("/dashboard");
-  }, [user]);
 
   return (
     <div className='w-full min-h-screen flex flex-col'>
