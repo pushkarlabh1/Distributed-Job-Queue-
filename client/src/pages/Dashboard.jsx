@@ -43,14 +43,47 @@ const Dashboard = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, []);
 
-  const totals = data?.tasks || [];
+  // Debug logging
+  console.log("Dashboard data:", data);
+  console.log("Dashboard error:", error);
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <div className='py-10'>
+      <div className='py-10 flex justify-center items-center'>
         <Loading />
       </div>
     );
+  }
+
+  // Handle error state
+  if (error) {
+    console.error("Dashboard API error:", error);
+    return (
+      <div className="flex flex-col items-center justify-center p-10">
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">Error! </strong>
+          <span className="block sm:inline">Failed to load dashboard data: {error?.data?.message || error?.error || 'Unknown error'}</span>
+          <br />
+          <small>Please try logging out and logging in again.</small>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="flex flex-col items-center justify-center p-10">
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+          <strong className="font-bold">No Data! </strong>
+          <span className="block sm:inline">No dashboard data available</span>
+          <br />
+          <small>Your account may not have access to dashboard statistics.</small>
+        </div>
+      </div>
+    );
+  }
+
+  const totals = data?.tasks || [];
 
   const stats = [
     {
@@ -62,7 +95,7 @@ const Dashboard = () => {
     },
     {
       _id: "2",
-      label: "COMPLTED TASK",
+      label: "COMPLETED TASK",
       total: totals["completed"] || 0,
       icon: <MdAdminPanelSettings />,
       bg: "bg-[#0f766e]",
@@ -77,9 +110,9 @@ const Dashboard = () => {
     {
       _id: "4",
       label: "TODOS",
-      total: totals["todo"],
+      total: totals["todo"] || 0,
       icon: <FaArrowsToDot />,
-      bg: "bg-[#be185d]" || 0,
+      bg: "bg-[#be185d]",
     },
   ];
 
@@ -99,9 +132,9 @@ const Dashboard = () => {
           <Chart data={data?.graphData} />
         </div>
         <div className='w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8'>
-          {/* RECENT AUTHORS */}
+          {/* RECENT TASKS */}
           {data && <TaskTable tasks={data?.last10Task} />}
-          {/* RECENT USERS */}
+          {/* RECENT USERS - only for admin */}
           {data && user?.isAdmin && <UserTable users={data?.users} />}
         </div>
       </>
@@ -238,9 +271,15 @@ const TaskTable = ({ tasks }) => {
         <table className='w-full '>
           <TableHeader />
           <tbody className=''>
-            {tasks.map((task, id) => (
-              <TableRow key={task?._id + id} task={task} />
-            ))}
+            {tasks?.length > 0 ? (
+              tasks.map((task, id) => (
+                <TableRow key={task?._id + id} task={task} />
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="py-4 text-center text-gray-500">No tasks available</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
