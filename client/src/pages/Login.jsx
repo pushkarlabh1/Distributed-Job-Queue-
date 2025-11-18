@@ -24,7 +24,8 @@ const Login = () => {
     try {
       const res = await login(data).unwrap();
 
-      dispatch(setCredentials(res));
+      // Extract the user object from the response since the API returns { success: true, user: {...} }
+      dispatch(setCredentials(res.user));
       navigate("/dashboard");
     } catch (err) {
       toast.error(err?.data?.message || err.error);

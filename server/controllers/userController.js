@@ -35,9 +35,11 @@ const loginUser = asyncHandler(async (req, res) => {
       path: '/'
     });
 
-    user.password = undefined;
+    // Remove password from the user object before sending the response
+    const userData = { ...user._doc };
+    delete userData.password;
 
-    res.status(200).json({ success: true, user });
+    res.status(200).json({ success: true, user: userData });
   } else {
     return res
       .status(401)
@@ -78,9 +80,11 @@ const registerUser = asyncHandler(async (req, res) => {
       });
     }
 
-    user.password = undefined;
+    // Remove password from the user object before sending the response
+    const userData = { ...user._doc };
+    delete userData.password;
 
-    res.status(201).json(user);
+    res.status(201).json({ success: true, user: userData });
   } else {
     return res
       .status(400)
