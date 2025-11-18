@@ -129,13 +129,13 @@ const Dashboard = () => {
           <h4 className='text-xl text-gray-500 font-bold mb-2'>
             Chart by Priority
           </h4>
-          <Chart data={data?.graphData} />
+          <Chart data={data?.graphData || []} />
         </div>
         <div className='w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8'>
           {/* RECENT TASKS */}
-          {data && <TaskTable tasks={data?.last10Task} />}
+          <TaskTable tasks={data?.last10Task || []} />
           {/* RECENT USERS - only for admin */}
-          {data && user?.isAdmin && <UserTable users={data?.users} />}
+          {user?.isAdmin && <UserTable users={data?.users || []} />}
         </div>
       </>
     </div>

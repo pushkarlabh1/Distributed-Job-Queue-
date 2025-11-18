@@ -12,9 +12,16 @@ dotenv.config();
 
 dbConnection();
 
+// Use Render's provided port or default to 5000
 const port = process.env.PORT || 5000;
 
 const app = express();
+
+// Enhanced logging for debugging
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - Origin: ${req.get('origin') || 'no origin'}`);
+  next();
+});
 
 app.use(cors(corsConfig.corsOptions));
 app.options('*', cors(corsConfig.corsOptions));
@@ -35,8 +42,15 @@ app.get("/health", (req, res) => {
   res.send("OK");
 });
 
-
 app.use(routeNotFound);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`SERVER RUNNING on PORT=${port}`));
+// Proper server setup with error handling
+const server = app.listen(port, '0.0.0.0', () => {
+  console.log(`SERVER RUNNING on PORT=${port}`);
+});
+
+// Handle server errors
+server.on('error', (err) => {
+  console.error('Server error:', err);
+});
