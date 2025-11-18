@@ -10,7 +10,7 @@ const corsOptions = {
       'http://localhost:3001',
       'http://localhost:5173',
       process.env.FRONTEND_URL
-    ];
+    ].filter(Boolean); // Remove any undefined/null values from the array
 
     // Check if origin is in allowed list
     const isAllowed = allowedOrigins.includes(origin);

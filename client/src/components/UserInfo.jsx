@@ -3,6 +3,17 @@ import { Fragment } from "react";
 import { getInitials } from "../utils";
 
 export default function UserInfo({ user }) {
+  // Check if user exists before trying to access its properties
+  if (!user) {
+    return (
+      <div className='px-4'>
+        <div className='w-7 h-7 rounded-full text-white flex items-center justify-center text-sm bg-gray-400'>
+          <span className='text-center'>?</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className='px-4'>
       <Popover className='relative'>

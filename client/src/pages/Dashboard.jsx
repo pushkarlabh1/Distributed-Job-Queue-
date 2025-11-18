@@ -58,6 +58,11 @@ const Dashboard = () => {
   // Handle error state
   if (error) {
     console.error("Dashboard API error:", error);
+    // If unauthorized error, redirect to login
+    if (error?.originalStatus === 401 || error?.data?.message?.includes("authorized")) {
+      // This would normally trigger a logout and redirect
+      // For now, just show error that suggests logging in again
+    }
     return (
       <div className="flex flex-col items-center justify-center p-10">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
