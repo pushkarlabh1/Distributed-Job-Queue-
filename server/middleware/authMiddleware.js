@@ -4,6 +4,9 @@ import User from "../models/userModel.js";
 
 const protectRoute = asyncHandler(async (req, res, next) => {
   // Debug logging to see what cookies are available
+  console.log("=== AUTH MIDDLEWARE DEBUG ===");
+  console.log("Request URL:", req.url);
+  console.log("Request method:", req.method);
   console.log("Available cookies:", req.cookies);
 
   // Check for both token and authToken cookies
@@ -16,7 +19,7 @@ const protectRoute = asyncHandler(async (req, res, next) => {
   if (token) {
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      console.log("Token verified successfully");
+      console.log("Token verified successfully, userId:", decodedToken.userId);
 
       const resp = await User.findById(decodedToken.userId).select(
         "isAdmin email"
@@ -35,16 +38,19 @@ const protectRoute = asyncHandler(async (req, res, next) => {
         userId: decodedToken.userId,
       };
 
-      console.log("User authenticated:", req.user.email);
+      console.log("User authenticated successfully:", req.user.email);
+      console.log("=== END AUTH MIDDLEWARE DEBUG ===");
       next();
     } catch (error) {
       console.error("Auth error:", error.message);
+      console.log("=== END AUTH MIDDLEWARE DEBUG ===");
       return res
         .status(401)
         .json({ status: false, message: "Not authorized. Try login again." });
     }
   } else {
     console.log("No authentication token found in cookies");
+    console.log("=== END AUTH MIDDLEWARE DEBUG ===");
     return res
       .status(401)
       .json({ status: false, message: "Not authorized. Try login again." });
