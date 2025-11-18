@@ -67,7 +67,16 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
-    isAdmin ? createJWT(res, user._id) : null;
+    if (isAdmin) {
+      // Set cookie with proper CORS settings for admin registration
+      res.cookie('authToken', generateToken(user._id), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+        path: '/'
+      });
+    }
 
     user.password = undefined;
 
@@ -81,7 +90,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
 // POST -  Logout user / clear cookie
 const logoutUser = (req, res) => {
+  // Clear both potential cookie names
   res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.cookie("authToken", "", {
     httpOnly: true,
     expires: new Date(0),
   });

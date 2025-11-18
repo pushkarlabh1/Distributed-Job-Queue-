@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
 const protectRoute = asyncHandler(async (req, res, next) => {
-  let token = req.cookies.token;
+  // Check for both token and authToken cookies
+  let token = req.cookies.token || req.cookies.authToken;
 
   if (token) {
     try {
